@@ -10,6 +10,7 @@ WEIGHT_KG = 80
 HEIGHT_CM = 175
 AGE = 25
 SHEET_ENDPOINT = "https://api.sheety.co/824058f8790a10294d39693ca6110eba/workoutTracking/workouts"
+YOUR_TOKEN = "secret"
 
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 
@@ -34,6 +35,10 @@ result = response.json()
 today_date = datetime.now().strftime("%d/%m/%Y")
 now_time = datetime.now().strftime("%X")
 
+bearer_headers = {
+    "Authorization": f"Bearer {YOUR_TOKEN}"
+}
+
 for exercise in result["exercises"]:
     sheet_inputs = {
         "workout": {
@@ -45,6 +50,6 @@ for exercise in result["exercises"]:
         }
     }
 
-    sheet_response = requests.post(SHEET_ENDPOINT, json=sheet_inputs)
+    sheet_response = requests.post(SHEET_ENDPOINT, json=sheet_inputs, headers=bearer_headers)
 
     print(sheet_response.text)
